@@ -2,7 +2,7 @@ package BVS;
 
 public class Strom<T> implements IStrom<T> {
     private Prvek<T> koren;
-    private Prvek<T>aktualni;
+    private Prvek<T> aktualni;
     private int pocetPrvku;
 
     @Override
@@ -29,42 +29,60 @@ public class Strom<T> implements IStrom<T> {
 
     @Override
     public void vlozKoren(T data) {
-        if(data == null)throw new NullPointerException();
-        if(koren !=null)return;
-        koren = new Prvek<>(data, null, null);
+        if (data == null) throw new NullPointerException();
+        if (koren != null) return;
+        koren = new Prvek<>(data, null, null, null);
         aktualni = koren;
         pocetPrvku++;
     }
 
     @Override
     public void vlozPravyList(T otec, T data) {
-        if(koren == null || data == null)throw new NullPointerException();
+        if (koren == null || data == null || jePrazdny()) throw new NullPointerException();
+//        Prvek prvek = (Prvek) otec;
+//        prvek.pravy = new Prvek(data, null, null);
+        aktualni = aktualni.levy;
+        pocetPrvku++;
 
     }
 
     @Override
     public void vlozLevyList(T otec, T data) {
-
+        if (koren == null || data == null || jePrazdny()) throw new NullPointerException();
+//        Prvek prvek = (Prvek) otec;
+//        prvek.levy = new Prvek(data, null, null);
+        aktualni = aktualni.levy;
+        pocetPrvku++;
     }
 
     @Override
     public T odeberLevyList(T otec) {
-        return null;
+        if (otec == null) throw new NullPointerException();
+        Prvek prvekOtec = (Prvek)otec;
+        Prvek levy = prvekOtec.levy;
+        prvekOtec.levy = null;
+
+        return (T) levy.value;
     }
 
     @Override
     public T odeberPravyList(T otec) {
-        return null;
+        if (otec == null) throw new NullPointerException();
+        Prvek prvekOtec = (Prvek)otec;
+        Prvek pravy = prvekOtec.pravy;
+        prvekOtec.pravy = null;
+
+        return (T) pravy.value;
     }
 
     @Override
     public T zpristupniKoren() {
-        return null;
+        return koren.value;
     }
 
     @Override
     public T zpristupniOtce(T syn) {
-        return null;
+        return (T)aktualni.otec.value;
     }
 
     @Override
@@ -87,14 +105,17 @@ public class Strom<T> implements IStrom<T> {
 
     }
 
-    private class Prvek<T>{
+    private class Prvek<T> {
         public T value;
-        public Prvek levy, pravy;
+        public Prvek levy;
+        public Prvek pravy;
+        public Prvek otec;
 
-        public Prvek(T value, Prvek levy, Prvek pravy) {
+        public Prvek(T value, Prvek levy, Prvek pravy, Prvek otec) {
             this.value = value;
             this.levy = levy;
             this.pravy = pravy;
+            this.otec = otec;
         }
     }
 

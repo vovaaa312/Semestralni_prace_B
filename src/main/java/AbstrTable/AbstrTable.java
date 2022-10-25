@@ -5,13 +5,16 @@ import AbstrDoubleList.IAbstrDoubleList;
 
 import java.util.Iterator;
 
+
 public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V> {
 
     private IAbstrDoubleList<Prvek> list = new AbstrDoubleList<Prvek>();
 
+
     private class Prvek {
         K klic;
         V value;
+
         public Prvek(K klic, V value) {
             this.klic = klic;
             this.value = value;
@@ -62,17 +65,7 @@ public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V>
 
     @Override
     public Iterator iterator() {
-        return new Iterator() {
-            @Override
-            public boolean hasNext() {
-                return list.iterator().hasNext();
-            }
-
-            @Override
-            public Object next() {
-                return list.iterator().next().value;
-            }
-        };
+        return list.iterator();
     }
 
 
