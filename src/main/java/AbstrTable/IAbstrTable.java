@@ -1,4 +1,4 @@
-package BVS;
+package AbstrTable;
 
 import java.util.Iterator;
 

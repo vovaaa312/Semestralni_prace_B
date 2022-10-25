@@ -1,4 +1,4 @@
-package BVS;
+package AbstrTable;
 
 import AbstrDoubleList.AbstrDoubleList;
 import AbstrDoubleList.IAbstrDoubleList;
@@ -9,12 +9,9 @@ public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V>
 
     private IAbstrDoubleList<Prvek> list = new AbstrDoubleList<Prvek>();
 
-
-
     private class Prvek {
         K klic;
         V value;
-
         public Prvek(K klic, V value) {
             this.klic = klic;
             this.value = value;

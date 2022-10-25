@@ -11,4 +11,20 @@ public abstract class AbstrZamek {
         this.sirka = sirka;
         this.vyska = vyska;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getNazev() {
+        return nazev;
+    }
+
+    public Double getSirka() {
+        return sirka;
+    }
+
+    public Double getVyska() {
+        return vyska;
+    }
 }
