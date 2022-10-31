@@ -38,9 +38,11 @@ public class Strom<T> implements IStrom<T> {
 
     @Override
     public void vlozPravyList(T otec, T data) {
-        if (koren == null || data == null || jePrazdny()) throw new NullPointerException();
+        if (koren == null || data == null || otec == null || jePrazdny()) throw new NullPointerException();
 //        Prvek prvek = (Prvek) otec;
 //        prvek.pravy = new Prvek(data, null, null);
+        aktualni = (Prvek<T>) otec;
+        aktualni.levy = new Prvek(data, null, null, aktualni);
         aktualni = aktualni.levy;
         pocetPrvku++;
 
@@ -48,17 +50,19 @@ public class Strom<T> implements IStrom<T> {
 
     @Override
     public void vlozLevyList(T otec, T data) {
-        if (koren == null || data == null || jePrazdny()) throw new NullPointerException();
+        if (koren == null || data == null || otec == null || jePrazdny()) throw new NullPointerException();
 //        Prvek prvek = (Prvek) otec;
 //        prvek.levy = new Prvek(data, null, null);
-        aktualni = aktualni.levy;
+        aktualni = (Prvek<T>) otec;
+        aktualni.pravy = new Prvek(data, null, null, aktualni);
+        aktualni = aktualni.pravy;
         pocetPrvku++;
     }
 
     @Override
     public T odeberLevyList(T otec) {
         if (otec == null) throw new NullPointerException();
-        Prvek prvekOtec = (Prvek)otec;
+        Prvek prvekOtec = (Prvek) otec;
         Prvek levy = prvekOtec.levy;
         prvekOtec.levy = null;
 
@@ -68,7 +72,7 @@ public class Strom<T> implements IStrom<T> {
     @Override
     public T odeberPravyList(T otec) {
         if (otec == null) throw new NullPointerException();
-        Prvek prvekOtec = (Prvek)otec;
+        Prvek prvekOtec = (Prvek) otec;
         Prvek pravy = prvekOtec.pravy;
         prvekOtec.pravy = null;
 
@@ -82,28 +86,29 @@ public class Strom<T> implements IStrom<T> {
 
     @Override
     public T zpristupniOtce(T syn) {
-        return (T)aktualni.otec.value;
+        return (T) aktualni.otec.value;
     }
 
     @Override
     public T zpristupniPravehoSyna(T otec) {
-        return null;
+        return (T) aktualni.pravy;
     }
 
     @Override
     public T zpristupniLevehoSyna(T otec) {
-        return null;
+        return (T) aktualni.levy;
     }
 
     @Override
     public T zpristupniBratra(T koho) {
-        return null;
+        if(koho == null || jePrazdny())throw new NullPointerException();
+        Prvek prvek = (Prvek) koho;
+        if (prvek.otec.levy == koho)
+            return zpristupniPravehoSyna((T) prvek);
+        else return zpristupniLevehoSyna((T) prvek);
     }
 
-    @Override
-    public void vloz() {
 
-    }
 
     private class Prvek<T> {
         public T value;

@@ -2,11 +2,12 @@ package Pamatky;
 
 import java.util.Iterator;
 import Enum.enumTypKey;
+import Enum.enumTypProhlidky;
 import Zamek.Zamek;
 
 public interface IPamatky<E> {
 
-    int importDatTXT();
+    int importDatTXT(String soubor);
 
     int vlozZamek(Zamek zamek);
 
@@ -22,5 +23,5 @@ public interface IPamatky<E> {
 
     Zamek najdiNejbliz(String klic);
 
-    Iterator iterator();
+    Iterator vytvorIterator(enumTypProhlidky typ);
 }

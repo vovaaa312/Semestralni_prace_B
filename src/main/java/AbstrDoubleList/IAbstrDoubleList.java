@@ -2,7 +2,7 @@ package AbstrDoubleList;
 
 import java.util.Iterator;
 
-public interface IAbstrDoubleList<T> {
+public interface IAbstrDoubleList<T> extends Iterable<T>{
 
     void zrus();
 

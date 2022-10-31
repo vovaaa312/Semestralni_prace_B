@@ -1,6 +1,7 @@
 package AbstrTable;
 
 import java.util.Iterator;
+import Enum.enumTypProhlidky;
 
 
 public interface IAbstrTable<K extends Comparable<K>, V> extends Iterable<V> {
@@ -15,7 +16,7 @@ public interface IAbstrTable<K extends Comparable<K>, V> extends Iterable<V> {
 
     V odeber(K key);
 
-    Iterator iterator();
+    Iterator vytvorIterator(enumTypProhlidky typ);
 
 
 }

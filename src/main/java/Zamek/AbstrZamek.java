@@ -27,4 +27,9 @@ public abstract class AbstrZamek {
     public Double getVyska() {
         return vyska;
     }
+
+    @Override
+    public String toString() {
+        return "ID: " + id +" Nazev: " + nazev + " sirka: " + sirka + " vyska: " + vyska;
+    }
 }

@@ -30,5 +30,4 @@ public interface IStrom<T> {
 
     T zpristupniBratra(T koho);
 
-    void vloz();
 }
