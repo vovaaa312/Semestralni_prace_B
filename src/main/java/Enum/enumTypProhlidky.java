@@ -1,7 +1,8 @@
 package Enum;
 
 public enum enumTypProhlidky {
-    HLOUBKA("hloubka"), SIRKA("sirka");
+    FIFO("fifo"), LIFO("lifo"),
+    DEFAULT("DEFAULT");
 
     private final String nazev;
 

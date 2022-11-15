@@ -1,15 +1,19 @@
 package com.example.GUI;
 
 import java.net.URL;
+import java.util.Iterator;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
+import AbstrTable.AbstrTable;
+import Pamatky.Pamatky;
 import Zamek.Zamek;
 import Enum.enumTypKey;
+import Enum.enumTypProhlidky;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 
 public class GUIController {
 
@@ -46,10 +50,25 @@ public class GUIController {
     @FXML
     private Button zrusBTN;
 
+    static int num = 1;
+
+    Pamatky pamatky = new Pamatky();
+
     @FXML
     void OnActionImportDatBTN(ActionEvent event) {
+        try {
+            pamatky.importDatTXT();
+            draw();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(ex.getClass().getName());
+            alert.setHeaderText(ex.getLocalizedMessage());
 
+            alert.showAndWait();
+        }
     }
+
 
     @FXML
     void OnActionNajdiNejblizBTN(ActionEvent event) {
@@ -58,6 +77,32 @@ public class GUIController {
 
     @FXML
     void OnActionNajdiZamekBTN(ActionEvent event) {
+
+        TextInputDialog textInputDialog = new TextInputDialog();
+        textInputDialog.setHeaderText("Zadejte klic: ");
+        switch (nastavKlicChBox.getValue()) {
+            case NAZEV -> {
+                Optional<String> result = textInputDialog.showAndWait();
+                try {
+                    if (pamatky.najdiZamek(result.get())!=null) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Information Dialog");
+                        alert.setHeaderText("Prvek dle klice" + result.get());
+                        alert.setContentText(pamatky.najdiZamek(result.get()).toString());
+
+                        alert.showAndWait();
+                    }
+                }catch (Exception ex){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle(ex.getClass().getName());
+                    alert.setHeaderText(ex.getLocalizedMessage());
+
+                    alert.showAndWait();
+                }
+            }
+        }
+        TextField field1 = new TextField();
+
 
     }
 
@@ -73,26 +118,59 @@ public class GUIController {
 
     @FXML
     void OnActionVlozZamekBTN(ActionEvent event) {
-
+        pamatky.vlozZamek(new Zamek("1", "zamek1", "123.0, 321.0",123,321));
+        draw();
     }
 
     @FXML
     void OnActionZrusBTN(ActionEvent event) {
+        if (pamatky.jePrazdny()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Seznam je prazdny");
+
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setHeaderText("Opravdu chcete smazat vsechna data?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                pamatky.zrus();
+                num = 1;
+                draw();
+            }
+        }
+    }
+
+    public void draw() {
+
+        try {
+
+            mainListView.getItems().clear();
+            Iterator iterator = pamatky.vytvorIterator(enumTypProhlidky.DEFAULT);
+
+            while (iterator.hasNext()) {
+                mainListView.getItems().add((Zamek) iterator.next());
+                System.out.println(iterator.next().toString());
+            }
+        } catch (NullPointerException ex) {
+            if (pamatky.jePrazdny()) {
+                ex.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle(ex.getClass().getName());
+                alert.setHeaderText(ex.getLocalizedMessage());
+
+                alert.showAndWait();
+        }}
+
 
     }
 
     @FXML
     void initialize() {
-        assert importDatBTN != null : "fx:id=\"importDatBTN\" was not injected: check your FXML file 'Main.fxml'.";
-        assert mainListView != null : "fx:id=\"mainListView\" was not injected: check your FXML file 'Main.fxml'.";
-        assert najdiNejblizBTN != null : "fx:id=\"najdiNejblizBTN\" was not injected: check your FXML file 'Main.fxml'.";
-        assert najdiZamekBTN != null : "fx:id=\"najdiZamekBTN\" was not injected: check your FXML file 'Main.fxml'.";
-        assert nastavKlicChBox != null : "fx:id=\"nastavKlicChBox\" was not injected: check your FXML file 'Main.fxml'.";
-        assert odeberZamekBTN != null : "fx:id=\"odeberZamekBTN\" was not injected: check your FXML file 'Main.fxml'.";
-        assert prebudujBTN != null : "fx:id=\"prebudujBTN\" was not injected: check your FXML file 'Main.fxml'.";
-        assert vlozZamekBTN != null : "fx:id=\"vlozZamekBTN\" was not injected: check your FXML file 'Main.fxml'.";
-        assert zrusBTN != null : "fx:id=\"zrusBTN\" was not injected: check your FXML file 'Main.fxml'.";
-
+        nastavKlicChBox.getItems().addAll(enumTypKey.values());
     }
 
 }

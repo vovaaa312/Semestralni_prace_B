@@ -1,15 +1,19 @@
 package Zamek;
 
-public abstract class AbstrZamek {
+public abstract class AbstrZamek<T> {
     private String id;
     private String nazev;
-    private Double sirka, vyska;
+    private String gps;
 
-    public AbstrZamek(String id, String nazev, Double sirka, Double vyska) {
+    private double x, y;
+
+
+    public AbstrZamek(String id, String nazev, String gps, double x, double y) {
         this.id = id;
         this.nazev = nazev;
-        this.sirka = sirka;
-        this.vyska = vyska;
+        this.gps = gps;
+        this.x = x;
+        this.y = y;
     }
 
     public String getId() {
@@ -20,16 +24,16 @@ public abstract class AbstrZamek {
         return nazev;
     }
 
-    public Double getSirka() {
-        return sirka;
+    public String getGps() {
+        return gps;
     }
 
-    public Double getVyska() {
-        return vyska;
+    public double getXY() {
+        return x + y;
     }
 
     @Override
     public String toString() {
-        return "ID: " + id +" Nazev: " + nazev + " sirka: " + sirka + " vyska: " + vyska;
+        return "ID: " + id + " Nazev: " + nazev + " gps: " + gps + " x: " + x + " y: " + y;
     }
 }

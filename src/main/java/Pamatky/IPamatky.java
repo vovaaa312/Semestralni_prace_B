@@ -5,15 +5,17 @@ import Enum.enumTypKey;
 import Enum.enumTypProhlidky;
 import Zamek.Zamek;
 
-public interface IPamatky<E> {
+public interface IPamatky {
 
-    int importDatTXT(String soubor);
+    int importDatTXT();
 
     int vlozZamek(Zamek zamek);
 
     Zamek najdiZamek(String klic);
 
     Zamek odeberZamek(String klic);
+
+    boolean jePrazdny();
 
     void zrus();
 
