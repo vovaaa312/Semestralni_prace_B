@@ -115,7 +115,7 @@ public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V>
     @Override
     public Iterator<V> vytvorIterator(enumTypProhlidky typ) {
         return switch (typ) {
-            case FIFO -> null;
+            case FIFO -> fifoIterator();
             case LIFO -> lifoIterator();
             case DEFAULT -> iterator();
         };
